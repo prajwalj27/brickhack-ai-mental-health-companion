@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
-from datetime import datetime
+from datetime import datetime, timedelta
 from langchain_core.output_parsers import StrOutputParser
 from transformers import pipeline
 from database_handler import get_mongo_collection, get_past_conversations
@@ -126,3 +126,4 @@ def get_results(user_prompt):
     )
 
     return result
+

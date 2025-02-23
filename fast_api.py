@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 from llm_handler import get_results
+from database_handler import get_chats_by_date, save_journal_entry, get_journals_by_date
 from database_handler import get_mongo_collection
 from datetime import datetime, timedelta
+from typing import Optional
 
 # Initialize FastAPI
 app = FastAPI()
@@ -10,6 +12,11 @@ app = FastAPI()
 # Define the request body
 class Prompt(BaseModel):
     prompt: str
+
+class JournalEntry(BaseModel):
+    title: str
+    entry: str
+    timestamp: Optional[str] = None  # ISO format timestamp
 
 # Endpoint to receive prompt from the user
 @app.post("/chat/")
@@ -57,3 +64,40 @@ async def get_chats_by_date(date: str):
     except Exception as e:
         raise Exception(f"Error fetching conversations: {e}")  # Check formatting
 
+
+@app.get("/conversations/")
+async def get_conversations(date: str = Query(..., description="Date in YYYY-MM-DD format")):
+    """
+    Get all chatbot conversations for a given date, sorted by timestamp.
+    :param date: Date in YYYY-MM-DD format
+    :return: List of conversations
+    """
+    try:
+        conversations = get_chats_by_date(date)
+        return {"date": date, "conversations": conversations}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/journal/")
+async def create_journal(journal: JournalEntry):
+    """
+    Store a new journal entry in MongoDB.
+    """
+    try:
+        journal_id = save_journal_entry(journal.title, journal.entry)
+        return {"message": "Journal entry saved successfully", "journal_id": journal_id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/journal/")
+async def get_journal_entries(date: str = Query(..., description="Date in YYYY-MM-DD format")):
+    """
+    Retrieve all journal entries for a given date, sorted by timestamp.
+    """
+    try:
+        journals = get_journals_by_date(date)
+        return {"date": date, "journals": journals}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
