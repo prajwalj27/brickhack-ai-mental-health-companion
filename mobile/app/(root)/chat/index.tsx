@@ -13,6 +13,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRouter } from "expo-router";
 
+import { baseURL } from "@/constants";
+
 const AiChat = () => {
   const router = useRouter();
   const [messages, setMessages] = useState([
@@ -27,14 +29,15 @@ const AiChat = () => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat", {
+      const response = await fetch(`${baseURL}/chat/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: inputText }),
+        body: JSON.stringify({ prompt: inputText }),
       });
 
       const data = await response.json();
-      const botMessage = { id: Date.now().toString(), sender: "bot", text: data.reply };
+      console.log(data)
+      const botMessage = { id: Date.now().toString(), sender: "bot", text: data.response };
 
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {

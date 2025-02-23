@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, View } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { icons } from "@/constants";
 
@@ -16,12 +17,7 @@ const TabIcon = ({
         focused ? "bg-general-400" : ""
       }`}
     >
-      <Image
-        source={source}
-        tintColor={`${focused ? "bg-general-400" : "white"}`}
-        resizeMode="contain"
-        className="w-7 h-7"
-      />
+      <Ionicons name={source} size={24} color="white" />
     </View>
   </View>
 );
@@ -67,18 +63,29 @@ export default function Layout() {
           title: "Home",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon source={icons.home} focused={focused} />
+            <TabIcon source="home" focused={focused} />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="profile"
+        name="journal"
         options={{
-          title: "Profile",
+          title: "Journal",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon source={icons.profile} focused={focused} />
+            <TabIcon source="journal" focused={focused} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="meditate"
+        options={{
+          title: "Meditate",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon source="journal" focused={focused} />
           ),
         }}
       />
