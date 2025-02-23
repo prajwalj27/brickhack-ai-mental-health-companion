@@ -1,17 +1,40 @@
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
-from pymongo import MongoClient
 from datetime import datetime
+from langchain_core.output_parsers import StrOutputParser
+from transformers import pipeline
+from database_handler import get_mongo_collection, get_past_conversations
 
 
-def get_mongo_collection():
-    MONGO_URL = "mongodb+srv://jc4320:uaerobp43ssuhnNl@cluster0.2tfqs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    client = MongoClient(MONGO_URL)
-    db = client["chatbot_db"]
-    collection = db["conversation"]
+def analyze_sentiment(text):
+    """
+    This functions takes in a text and returns the sentiment of the text.
+    :param text:
+    :return:
+    """
+    sentiment_analyzer = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment-latest")
+    result = sentiment_analyzer(text)
+    label = result[0]["label"].lower()
+    score = result[0]["score"]
 
-    return collection
+    sentiment_mapping = {
+        "positive": 1,
+        "negative": -1,
+        "neutral": 0
+    }
+
+    normalized_score = sentiment_mapping[label] * score
+
+    if label == "neutral":
+        if score > 0.7:
+            normalized_score = 0.2
+        elif normalized_score < 0.3:
+            normalized_score = -0.2
+        else:
+            normalized_score = 0
+
+    return normalized_score
 
 def initialize_llm():
     """
@@ -33,21 +56,27 @@ def get_system_prompt():
     :return:
     """
     system_prompt = """
-    You have to behave like a human. You are therapist. you have to be calm, gentle, understanding
-    and empathetic. You have to listen to the user and respond accordingly. You do not have to be too cheerful.
-    You have to resonate with the user and listen the user's problem. Dont give solutions. Your task is to listen.
-    This is what the user is saying: {user_input}"""
+    You are a therapist. You have to be calm, gentle, understanding and empathetic. You have to listen to the user and 
+    respond accordingly. You do not have to be too cheerful. You have to resonate with the user and listen the user's 
+    problem. Dont give solutions. Your task is to listen. If you do not understand what the user is saying, be patient,
+    do not output gibberish. Ask the user to explain more, but do not be too direct. Be indirect and gentle.
+    
+    Here is the past conversation history:
+    {past_conversation}
+    
+    Following is the user’s latest message.
+    User: {user_input}
+    
+    Following is the sentiment score of the user's latest message: {sentiment_score} 
+    The score ranges from -1 to 1. -1 means negative sentiment, 1 means positive sentiment and 0 means neutral sentiment. 
+    You should consider the sentiment score while replying back to user's message. If the sentiment score is negative, 
+    you should be more empathetic and understanding. If the sentiment score is positive, you should be more encouraging 
+    and supportive but not too cheerful.
+    
+    Note: Do not repeat what the user is saying. Do not say I understand and repeat exactly what the user is saying.
+    """
 
     return system_prompt
-
-def get_past_conversations(collection):
-    """
-    Return a list of past 5 messages.
-    :param collection:
-    :return:
-    """
-    past_messages = collection.find().sort
-
 
 def get_results(user_prompt):
     """
@@ -64,17 +93,34 @@ def get_results(user_prompt):
     # Get the collection
     collection = get_mongo_collection()
 
+    # Get past conversations
+    past_conversations = get_past_conversations(collection)
+
+    # Convert past conversations into a string
+    past_conversations_context = "\n".join([f"user_input: {msg['user_input']}\nresponse: {msg['response']}" for msg in past_conversations])
+
+    # Get the sentiment of the user's prompt - normalize the score
+    sentiment_score = analyze_sentiment(user_prompt)
+
+    # Format the system prompt with context
+    formatted_prompt = system_prompt.format(past_conversation=past_conversations_context,
+                                            user_input=user_prompt,
+                                            sentiment_score=sentiment_score)
+
     prompt = PromptTemplate(
-        template=system_prompt,
-        input_variables=["user_input"]
+        template=formatted_prompt,
+        input_variables=[]
     )
 
-    chain = prompt | llm
+    output_parser = StrOutputParser()
 
-    result =  chain.invoke({"user_input": user_prompt}).content
+    chain = prompt | llm | output_parser
+
+    result =  chain.invoke({})
 
     collection.insert_one(
         {"user_input": user_prompt,
+         "sentiment_score": sentiment_score,
          "response": result,
          "timestamp": datetime.utcnow()}
     )
