@@ -31,21 +31,38 @@ const Journal = () => {
   const [selectedMood, setSelectedMood] = useState("");
 
   // Fetch journal entries for the selected date
-  // useEffect(() => {
-  //   const fetchJournalEntries = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `${baseURL}/journal?date=${selectedDate.toISOString().split("T")[0]}`
-  //       );
-  //       const data = await response.json();
-  //       setJournalEntries(data.entries);
-  //     } catch (error) {
-  //       console.error("Error fetching journal entries:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchJournalEntries = async () => {
+      try {
 
-  //   fetchJournalEntries();
-  // }, [selectedDate]);
+        const response = await fetch(
+          `${baseURL}/journal?date=${selectedDate.toISOString().split("T")[0]}`
+        );
+        const data = await response.json();
+        setJournalEntries(data.journals); // Ensure it matches the API response format
+      } catch (error) {
+        console.error("Error fetching journal entries:", error);
+      }
+    };
+
+    fetchJournalEntries();
+  }, [selectedDate]);
+
+  // Handle time formatting
+  const formatTime12Hour = (timestamp) => {
+    if (!timestamp) return "";
+
+    // Convert the string timestamp to a Date object
+    const date = new Date(timestamp);
+
+    // Format the date to EST/EDT (Eastern Time)
+    return new Intl.DateTimeFormat("en-US", {
+      timeZone: "America/New_York", // Converts UTC to EST/EDT
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true, // Ensures 12-hour format
+    }).format(date);
+  };
 
   // Handle journal entry submission
   const submitJournalEntry = async () => {
@@ -70,9 +87,8 @@ const Journal = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: newEntryTitle,
-          content: newEntryContent,
-          date: selectedDate.toISOString().split("T")[0],
-          mood: selectedMood,
+          entry: newEntryContent,
+          // timestamp: new Date().toISOString(),
         }),
       });
 
@@ -81,6 +97,9 @@ const Journal = () => {
         setNewEntryTitle("");
         setNewEntryContent("");
         setSelectedMood("");
+
+        // **Trigger re-fetching by updating selectedDate**
+        setSelectedDate(new Date(selectedDate)); // Force useEffect to run again
       }
     } catch (error) {
       console.error("Error saving journal entry:", error);
@@ -132,13 +151,14 @@ const Journal = () => {
           {journalEntries.length > 0 ? (
             journalEntries.map((item) => (
               <View
-                key={item.id}
+                key={item._id}
                 className="p-3 bg-white shadow rounded-lg my-2"
               >
                 <Text className="text-lg font-semibold">{item.title}</Text>
-                <Text className="text-gray-500">{item.content}</Text>
+                <Text className="text-gray-500">{item.entry}</Text>
                 <Text className="text-gray-600 mt-2 italic">
-                  Mood: {item.mood}
+                  Time: {formatTime12Hour(item.timestamp)}{" "}
+                  {/* Convert timestamp */}
                 </Text>
               </View>
             ))
@@ -149,7 +169,7 @@ const Journal = () => {
           )}
 
           {/* New Journal Entry Form */}
-          <View className="p-4 bg-white shadow rounded-lg mt-4">
+          {/* <View className="p-4 bg-white shadow rounded-lg mt-4">
             <Text className="text-lg font-bold mb-2">New Journal Entry</Text>
             <TextInput
               className="border p-2 rounded-lg mb-2"
@@ -172,9 +192,35 @@ const Journal = () => {
                 Submit Journal Entry
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </ScrollView>
+
+        {/* New Journal Entry Form */}
+      <View className="p-4 bg-white shadow rounded-lg mb-20 ">
+        <Text className="text-lg font-bold mb-2">New Journal Entry</Text>
+        <TextInput
+          className="border p-2 rounded-lg mb-2"
+          placeholder="Title"
+          value={newEntryTitle}
+          onChangeText={setNewEntryTitle}
+        />
+        <TextInput
+          className="border p-2 rounded-lg mb-2 h-20"
+          placeholder="Write your thoughts..."
+          value={newEntryContent}
+          onChangeText={setNewEntryContent}
+          multiline
+        />
+        <TouchableOpacity
+          className="bg-blue-500 p-3 rounded-lg mt-2"
+          onPress={submitJournalEntry}
+        >
+          <Text className="text-white text-center">Submit Journal Entry</Text>
+        </TouchableOpacity>
+      </View>
       </KeyboardAvoidingView>
+
+      
 
       {/* Mood Modal */}
       <Modal visible={showModal} transparent animationType="slide">

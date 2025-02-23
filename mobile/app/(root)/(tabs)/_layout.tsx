@@ -1,8 +1,10 @@
 import { Tabs } from "expo-router";
 import { Image, ImageSourcePropType, View } from "react-native";
-import Ionicons from '@expo/vector-icons/Ionicons';
+import Ionicons from "@expo/vector-icons/Ionicons";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 import { icons } from "@/constants";
+import meditate from "@/assets/icons/meditate_icon.png";
 
 const TabIcon = ({
   source,
@@ -74,7 +76,17 @@ export default function Layout() {
           title: "Journal",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon source="journal" focused={focused} />
+            <View
+              className={`flex flex-row justify-center items-center rounded-full `}
+            >
+              <View
+                className={`rounded-full w-12 h-12 items-center justify-center ${
+                  focused ? "bg-general-400" : ""
+                }`}
+              >
+                <FontAwesome5 name="book" size={24} color="white" />
+              </View>
+            </View>
           ),
         }}
       />
@@ -85,7 +97,18 @@ export default function Layout() {
           title: "Meditate",
           headerShown: false,
           tabBarIcon: ({ focused }) => (
-            <TabIcon source="journal" focused={focused} />
+            <View
+              className={`rounded-full w-12 h-12 items-center justify-center ${
+                focused ? "bg-general-400" : ""
+              }`}
+            >
+              <Image
+                source={meditate}
+                tintColor="white"
+                resizeMode="contain"
+                className="w-9 h-9"
+              />
+            </View>
           ),
         }}
       />
