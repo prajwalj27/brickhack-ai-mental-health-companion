@@ -9,7 +9,7 @@ def get_mongo_collection():
 
     return collection
 
-def get_past_conversations(collection, limit=5):
+def get_past_conversations(collection, limit=1000):
     """
     Return a list of past messages.
     :param limit:
