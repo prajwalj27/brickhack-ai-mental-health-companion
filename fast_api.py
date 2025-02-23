@@ -5,9 +5,18 @@ from database_handler import get_chats_by_date, save_journal_entry, get_journals
 from database_handler import get_mongo_collection
 from datetime import datetime, timedelta
 from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize FastAPI
 app = FastAPI()
+# Allow CORS for all domains (for testing purposes)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 
 # Define the request body
 class Prompt(BaseModel):

@@ -79,5 +79,24 @@ def upload_embedded_transcripts(client, embedded_transcript_path):
         client.close()
 
 # handle_schema_creation(get_client())
-upload_embedded_transcripts(get_client(), "embedded_transcript.json")
+# upload_embedded_transcripts(get_client(), "embedded_transcript.json")
+
+
+
+
+client = get_client()
+
+# Fetch a specific object by ID
+object_id = "00937e60-80bd-4f49-9387-4db6ac12d1ec"  # Replace with an actual ID from Weaviate
+therapy_session = client.collections.get("TherapySession")
+retrieved_object = therapy_session.query.fetch_object_by_id(object_id, include_vector=True)
+
+# Print the retrieved object with its vector
+print(retrieved_object.properties)  # Shows session_id and text
+print(retrieved_object.vector)  # Should display the vector
+
+client.close()
+
+
+
 

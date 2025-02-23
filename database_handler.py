@@ -1,16 +1,25 @@
 from pymongo import MongoClient
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 
-def get_mongo_collection():
+def get_mongo_collection(collection_name="conversation"):
     MONGO_URL = "mongodb+srv://jc4320:uaerobp43ssuhnNl@cluster0.2tfqs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     client = MongoClient(MONGO_URL)
     db = client["chatbot_db"]
-    collection = db["conversation"]
+    collection = db[collection_name]
 
     return collection
 
-def get_past_conversations(collection, limit=1000):
+def get_all_summaries():
+    collection = get_mongo_collection("summary")
+
+    results = collection.find({}, {"_id": 0}).sort("date", -1)
+    results = list(results)
+
+    return results
+
+
+def get_past_conversations(collection, limit=10):
     """
     Return a list of past messages.
     :param limit:
@@ -48,7 +57,7 @@ def save_journal_entry(title: str, entry: str):
         journal_entry = {
             "title": title,
             "entry": entry,
-            "timestamp": datetime.utcnow()  # Store UTC time WITHOUT timezone info
+            "timestamp": datetime.now(timezone.utc).isoformat()  # Store UTC time WITHOUT timezone info
         }
 
         result = collection.insert_one(journal_entry)
@@ -60,26 +69,26 @@ def save_journal_entry(title: str, entry: str):
 
 def get_journals_by_date(date: str):
     """
-    Retrieve all journal entries for a given date, ordered by timestamp.
-    :param date: Date in YYYY-MM-DD format
-    :return: List of journal entries
+    Retrieve all journal entries that match the given date string (YYYY-MM-DD).
+
+    :param date: Date in YYYY-MM-DD format.
+    :return: List of journal entries for that date.
     """
     try:
         collection = get_journal_collection()
 
-        # Convert date to datetime range (Naive UTC)
-        start_date = datetime.strptime(date, "%Y-%m-%d")
-        end_date = start_date + timedelta(days=1)
+        print(f"Fetching entries for date: {date}")
 
-        # Query MongoDB for records within the given date range
-        journals = list(collection.find(
-            {"timestamp": {"$gte": start_date, "$lt": end_date}}
-        ).sort("timestamp", 1))
+        # Query MongoDB where the timestamp starts with the given date string
+        journals = list(collection.find({
+            "timestamp": {"$regex": f"^{date}"}  # Matches "YYYY-MM-DDT..."
+        }).sort("timestamp", 1))  # Sort by timestamp in ascending order
 
-        # Convert ObjectId and timestamp to readable format
+        # Convert ObjectId to string (but do not modify timestamp)
         for journal in journals:
             journal["_id"] = str(journal["_id"])
-            journal["timestamp"] = journal["timestamp"].isoformat()  # Keep as naive UTC
+            # Ensure timestamp is not modified
+            journal["timestamp"] = str(journal["timestamp"])  # Keep as a string
 
         return journals
 
