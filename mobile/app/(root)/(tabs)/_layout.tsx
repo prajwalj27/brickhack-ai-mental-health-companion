@@ -15,11 +15,9 @@ const TabIcon = ({
 }) => (
   <View className={`flex flex-row justify-center items-center rounded-full `}>
     <View
-      className={`rounded-full w-12 h-12 items-center justify-center ${
-        focused ? "bg-general-400" : ""
-      }`}
+      className={`rounded-full w-12 h-12 items-center justify-center`}
     >
-      <Ionicons name={source} size={24} color="white" />
+      <Ionicons name={source} size={24} color={focused ? "white" : "gray"} />
     </View>
   </View>
 );
@@ -33,11 +31,8 @@ export default function Layout() {
         tabBarInactiveTintColor: "white",
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#333333",
-          // borderRadius: 50,
+          backgroundColor: "#253334",
           overflow: "hidden",
-          // marginHorizontal: 20,
-          // marginBottom: 20,
           height: 78,
           paddingBottom: 25,
           display: "flex",
@@ -45,6 +40,9 @@ export default function Layout() {
           alignItems: "center",
           flexDirection: "row",
           position: "absolute",
+          borderTopWidth: 0, // Remove the top border
+          elevation: 0, // Remove shadow on Android
+          shadowOpacity: 0, // Remove shadow on iOS
         },
       }}
     >
@@ -80,11 +78,9 @@ export default function Layout() {
               className={`flex flex-row justify-center items-center rounded-full `}
             >
               <View
-                className={`rounded-full w-12 h-12 items-center justify-center ${
-                  focused ? "bg-general-400" : ""
-                }`}
+                className={`rounded-full w-12 h-12 items-center justify-center`}
               >
-                <FontAwesome5 name="book" size={24} color="white" />
+                <FontAwesome5 name="book" size={24} color={focused ? "white" : "gray"} />
               </View>
             </View>
           ),
@@ -98,13 +94,11 @@ export default function Layout() {
           headerShown: false,
           tabBarIcon: ({ focused }) => (
             <View
-              className={`rounded-full w-12 h-12 items-center justify-center ${
-                focused ? "bg-general-400" : ""
-              }`}
+              className={`rounded-full w-12 h-12 items-center justify-center`}
             >
               <Image
                 source={meditate}
-                tintColor="white"
+                tintColor={focused ? "white" : "gray"}
                 resizeMode="contain"
                 className="w-9 h-9"
               />
