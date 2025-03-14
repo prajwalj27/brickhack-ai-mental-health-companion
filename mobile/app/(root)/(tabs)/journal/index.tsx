@@ -16,6 +16,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { baseURL } from "@/constants";
 import { useLocalSearchParams } from "expo-router";
 
+import MoodModal from "@/components/MoodModal";
+
 const moods = ["Happy", "Sad", "Neutral", "Calm", "Anxious"]; // Predefined mood options
 
 const Journal = () => {
@@ -52,29 +54,28 @@ const Journal = () => {
     fetchJournalEntries();
   }, [selectedDate]);
 
+  // const sendMessage = async () => {
+  //   if (!inputText.trim()) return;
 
-    // const sendMessage = async () => {
-    //   if (!inputText.trim()) return;
-  
-    //   const userMessage = {
-    //     id: Date.now().toString(),
-    //     sender: "user",
-    //     text: inputText,
-    //   };
-  
-    //   try {
-    //     const response = await fetch(`${baseURL}/chat/`, {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify({ prompt: `I journalled and now i am feeling ${selectedMood}` }),
-    //     });
-  
-    //     const data = await response.json();
-  
-    //   } catch (error) {
-    //     console.error("Error fetching AI response:", error);
-    //   }
-    // };
+  //   const userMessage = {
+  //     id: Date.now().toString(),
+  //     sender: "user",
+  //     text: inputText,
+  //   };
+
+  //   try {
+  //     const response = await fetch(`${baseURL}/chat/`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ prompt: `I journalled and now i am feeling ${selectedMood}` }),
+  //     });
+
+  //     const data = await response.json();
+
+  //   } catch (error) {
+  //     console.error("Error fetching AI response:", error);
+  //   }
+  // };
 
   // Handle time formatting
   const formatTime12Hour = (timestamp) => {
@@ -249,12 +250,11 @@ const Journal = () => {
       </KeyboardAvoidingView>
 
       {/* Mood Modal */}
-      <Modal visible={showModal} transparent animationType="slide">
+      {/* <Modal visible={showModal} transparent animationType="slide">
         <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
           <View className="bg-white p-6 rounded-lg w-3/4">
             <Text className="text-lg font-bold mb-2">How do you feel now?</Text>
 
-            {/* Mood Selection Buttons */}
             <View className="flex-row flex-wrap justify-center">
               {moods.map((mood) => (
                 <TouchableOpacity
@@ -293,7 +293,15 @@ const Journal = () => {
             </View>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+      <MoodModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        submitResponse={submitJournalWithMood}
+        moods={moods}
+        selectedMood={selectedMood}
+        setSelectedMood={setSelectedMood}
+      />
     </SafeAreaView>
   );
 };
