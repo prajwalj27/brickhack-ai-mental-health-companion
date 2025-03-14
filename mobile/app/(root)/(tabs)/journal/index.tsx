@@ -34,7 +34,11 @@ const Journal = () => {
   useEffect(() => {
     const fetchJournalEntries = async () => {
       try {
-
+        console.log(
+          `fetching from: ${baseURL}/journal?date=${
+            selectedDate.toISOString().split("T")[0]
+          }`
+        );
         const response = await fetch(
           `${baseURL}/journal?date=${selectedDate.toISOString().split("T")[0]}`
         );
@@ -47,6 +51,30 @@ const Journal = () => {
 
     fetchJournalEntries();
   }, [selectedDate]);
+
+
+    // const sendMessage = async () => {
+    //   if (!inputText.trim()) return;
+  
+    //   const userMessage = {
+    //     id: Date.now().toString(),
+    //     sender: "user",
+    //     text: inputText,
+    //   };
+  
+    //   try {
+    //     const response = await fetch(`${baseURL}/chat/`, {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify({ prompt: `I journalled and now i am feeling ${selectedMood}` }),
+    //     });
+  
+    //     const data = await response.json();
+  
+    //   } catch (error) {
+    //     console.error("Error fetching AI response:", error);
+    //   }
+    // };
 
   // Handle time formatting
   const formatTime12Hour = (timestamp) => {
@@ -196,31 +224,29 @@ const Journal = () => {
         </ScrollView>
 
         {/* New Journal Entry Form */}
-      <View className="p-4 bg-white shadow rounded-lg mb-20 ">
-        <Text className="text-lg font-bold mb-2">New Journal Entry</Text>
-        <TextInput
-          className="border p-2 rounded-lg mb-2"
-          placeholder="Title"
-          value={newEntryTitle}
-          onChangeText={setNewEntryTitle}
-        />
-        <TextInput
-          className="border p-2 rounded-lg mb-2 h-20"
-          placeholder="Write your thoughts..."
-          value={newEntryContent}
-          onChangeText={setNewEntryContent}
-          multiline
-        />
-        <TouchableOpacity
-          className="bg-blue-500 p-3 rounded-lg mt-2"
-          onPress={submitJournalEntry}
-        >
-          <Text className="text-white text-center">Submit Journal Entry</Text>
-        </TouchableOpacity>
-      </View>
+        <View className="p-4 bg-white shadow rounded-lg mb-20 ">
+          <Text className="text-lg font-bold mb-2">New Journal Entry</Text>
+          <TextInput
+            className="border p-2 rounded-lg mb-2"
+            placeholder="Title"
+            value={newEntryTitle}
+            onChangeText={setNewEntryTitle}
+          />
+          <TextInput
+            className="border p-2 rounded-lg mb-2 h-20"
+            placeholder="Write your thoughts..."
+            value={newEntryContent}
+            onChangeText={setNewEntryContent}
+            multiline
+          />
+          <TouchableOpacity
+            className="bg-blue-500 p-3 rounded-lg mt-2"
+            onPress={submitJournalEntry}
+          >
+            <Text className="text-white text-center">Submit Journal Entry</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
-
-      
 
       {/* Mood Modal */}
       <Modal visible={showModal} transparent animationType="slide">

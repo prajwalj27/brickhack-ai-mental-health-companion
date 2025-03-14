@@ -32,8 +32,8 @@ import onboarding2 from "@/assets/images/onboarding2.png";
 import onboarding3 from "@/assets/images/onboarding3.png";
 import signUpCar from "@/assets/images/signup-car.png";
 
-export const baseURL = "http://192.168.56.118:8000"
-// export const baseURL = "http://localhost:8000"
+// export const baseURL = "http://192.168.56.26:8000"
+export const baseURL = "http://192.168.0.102:8000"
 
 export const images = {
   onboarding1,
@@ -100,7 +100,7 @@ export const onboarding = [
     id: 4,
     title: "AI That Understands You",
     description:
-      "Engage in thoughtful conversations with AI. Get personalized support and mood-based recommendations.",
+      "Not a Therapist, but your best friend, a companion, you can share your emotions with!",
     image: "",
   },
   {
