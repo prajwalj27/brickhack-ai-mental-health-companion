@@ -86,122 +86,124 @@ const SignUp = () => {
   };
 
   return (
-      <ScrollView className="flex-1 bg-dark">
-        <Image
-          source={images.leaves}
-          resizeMode="contain"
-          className="absolute w-full right-0 top-0"
-        />
-        <View className="flex-1">
-          <View className="relative w-full h-[250px]">
-            <Text className="text-2xl text-[#fff] font-JakartaExtraBold absolute bottom-5 left-5">
-              Create Your Account
+    <ScrollView className="flex-1 bg-dark">
+      <Image
+        source={images.leaves}
+        resizeMode="contain"
+        className="absolute w-full right-0 top-0"
+      />
+      <View className="flex-1">
+        <View className="relative w-full h-[250px]">
+          <Text className="text-2xl text-[#fff] font-JakartaExtraBold absolute bottom-5 left-5">
+            Create Your Account
+          </Text>
+        </View>
+        <View className="px-5">
+          <Text className="text-white font-JakartaMedium mb-5">
+            Sign up now for free and start meditating.
+          </Text>
+          <InputField
+            label="Name"
+            placeholder="Name"
+            icon={icons.person}
+            value={form.name}
+            onChangeText={(value) => setForm({ ...form, name: value })}
+          />
+          <InputField
+            label="Email"
+            placeholder="Email"
+            icon={icons.email}
+            value={form.email}
+            onChangeText={(value) => setForm({ ...form, email: value })}
+          />
+          <InputField
+            label="Password"
+            placeholder="Password"
+            icon={icons.lock}
+            secureTextEntry={true}
+            value={form.password}
+            onChangeText={(value) => setForm({ ...form, password: value })}
+            containerStyle="mb-10"
+          />
+
+          <CustomButton
+            title="Sign Up"
+            onPress={onSignUpPress}
+            className="mt-10 bg-light self-center"
+          />
+
+          <Link
+            href="/sign-in"
+            className="text-lg text-medium mt-4 text-center"
+          >
+            <Text>Already have an account? </Text>
+            <Text className="text-white">Log In</Text>
+          </Link>
+        </View>
+
+        {/*  Verification Modal*/}
+        <ReactNativeModal
+          isVisible={verification.state === "pending"}
+          onModalHide={() => {
+            if (verification.state === "success") setShowSuccessModal(true);
+          }}
+        >
+          <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+            <Text className="text-2xl font-JakartaExtraBold mb-2">
+              Verification
             </Text>
-          </View>
-          <View className="px-5">
-            <Text className="text-white font-JakartaMedium mb-5">Sign up now for free and start meditating.</Text>
+            <Text className="font-Jakarta mb-5">
+              We've sent a verification code to {form.email}
+            </Text>
             <InputField
-              label="Name"
-              placeholder="Name"
-              icon={icons.person}
-              value={form.name}
-              onChangeText={(value) => setForm({ ...form, name: value })}
-            />
-            <InputField
-              label="Email"
-              placeholder="Email"
-              icon={icons.email}
-              value={form.email}
-              onChangeText={(value) => setForm({ ...form, email: value })}
-            />
-            <InputField
-              label="Password"
-              placeholder="Password"
+              label="Code"
               icon={icons.lock}
-              secureTextEntry={true}
-              value={form.password}
-              onChangeText={(value) => setForm({ ...form, password: value })}
-              containerStyle="mb-10"
+              placeholder="12345"
+              value={verification.code}
+              keyboardType="numeric"
+              onChangeText={(code) =>
+                setVerification({ ...verification, code })
+              }
             />
+            {verification.error && (
+              <Text className="text-red-500 text-sm mt-1">
+                {verification.error}
+              </Text>
+            )}
 
             <CustomButton
-              title="Sign Up"
-              onPress={onSignUpPress}
-              className="mt-10 bg-light self-center"
+              title="Verify Email"
+              onPress={onVerifyPress}
+              className="mt-5 bg-success-500"
             />
-
-            <Link
-              href="/sign-in"
-              className="text-lg text-medium mt-4 text-center"
-            >
-              <Text>Already have an account? </Text>
-              <Text className="text-white">Log In</Text>
-            </Link>
           </View>
+        </ReactNativeModal>
 
-          {/*  Verification Modal*/}
-          <ReactNativeModal
-            isVisible={verification.state === "pending"}
-            onModalHide={() => {
-              if (verification.state === "success") setShowSuccessModal(true);
-            }}
-          >
-            <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
-              <Text className="text-2xl font-JakartaExtraBold mb-2">
-                Verification
-              </Text>
-              <Text className="font-Jakarta mb-5">
-                We've sent a verification code to {form.email}
-              </Text>
-              <InputField
-                label="Code"
-                icon={icons.lock}
-                placeholder="12345"
-                value={verification.code}
-                keyboardType="numeric"
-                onChangeText={(code) =>
-                  setVerification({ ...verification, code })
-                }
-              />
-              {verification.error && (
-                <Text className="text-red-500 text-sm mt-1">
-                  {verification.error}
-                </Text>
-              )}
+        <ReactNativeModal isVisible={showSuccessModal}>
+          <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+            <Image
+              source={images.check}
+              className="w-[110px] h-[110px] mx-auto my-5"
+            />
+            <Text className="text-3xl font-JakartaBold text-center">
+              Verified
+            </Text>
+            <Text className="text-base font-Jakarta text-gray-400 text-center mt-2">
+              You have successfully verified your account.
+            </Text>
 
-              <CustomButton
-                title="Verify Email"
-                onPress={onVerifyPress}
-                className="mt-5 bg-success-500"
-              />
-            </View>
-          </ReactNativeModal>
-
-          <ReactNativeModal isVisible={showSuccessModal}>
-            <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
-              <Image
-                source={images.check}
-                className="w-[110px] h-[110px] mx-auto my-5"
-              />
-              <Text className="text-3xl font-JakartaBold text-center">
-                Verified
-              </Text>
-              <Text className="text-base font-Jakarta text-gray-400 text-center mt-2">
-                You have successfully verified your account.
-              </Text>
-
-              <CustomButton
-                title="Browse Home"
-                className="mt-5"
-                onPress={() => {
-                  setShowSuccessModal(false);
-                  router.push("/(root)/(tabs)/home");
-                }}
-              />
-            </View>
-          </ReactNativeModal>
-        </View>
-      </ScrollView>
+            <CustomButton
+              title="Browse Home"
+              className="mt-5"
+              onPress={() => {
+                setShowSuccessModal(false);
+                router.push("/(root)/(tabs)/home");
+              }}
+            />
+          </View>
+        </ReactNativeModal>
+      </View>
+    </ScrollView>
   );
 };
 

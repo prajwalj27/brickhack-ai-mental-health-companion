@@ -5,8 +5,8 @@ import { Alert, Image, ScrollView, Text, View } from "react-native";
 import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
-import { icons, images } from "@/constants";
 import { useSignIn } from "@clerk/clerk-expo";
+import { icons, images } from "@/constants";
 
 const SignIn = () => {
   const [form, setForm] = useState({
@@ -44,19 +44,27 @@ const SignIn = () => {
   }, [isLoaded, form.email, form.password]);
 
   return (
-    <ScrollView className="flex-1 bg-white">
-      <View className="flex-1 bg-white">
+    <ScrollView className="flex-1 bg-dark">
+      <Image
+        source={images.leaves}
+        resizeMode="contain"
+        className="absolute w-full right-0 top-0"
+      />
+      <View className="flex-1">
         <View className="relative w-full h-[250px]">
-          <Image source="" className="z-0 w-full h-[250px]" />
-          <Text className="text-2xl text-black font-JakartaSemiBold absolute bottom-5 left-5">
-            Welcome 👋
+          {/* <Image source="" className="z-0 w-full h-[250px]" /> */}
+          <Text className="text-2xl text-[#fff] font-JakartaExtraBold absolute bottom-5 left-5">
+            Welcome
           </Text>
         </View>
 
-        <View className="p-5">
+        <View className="px-5">
+          <Text className="text-white font-JakartaMedium mb-5">
+            Good to see you again. Let's start meditating!
+          </Text>
           <InputField
             label="Email"
-            placeholder="Enter email"
+            placeholder="Email"
             icon={icons.email}
             textContentType="emailAddress"
             value={form.email}
@@ -65,7 +73,7 @@ const SignIn = () => {
 
           <InputField
             label="Password"
-            placeholder="Enter password"
+            placeholder="Password"
             icon={icons.lock}
             secureTextEntry={true}
             textContentType="password"
@@ -74,19 +82,16 @@ const SignIn = () => {
           />
 
           <CustomButton
-            title="Sign In"
+            title="Log In"
             onPress={onSignInPress}
-            className="mt-6"
+            className="mt-10 bg-light self-center"
           />
-
-          {/* <OAuth /> */}
 
           <Link
             href="/sign-up"
-            className="text-lg text-center text-general-200 mt-10"
+            className="text-lg text-medium mt-4 text-center"
           >
-            Don't have an account?{" "}
-            <Text className="text-primary-500">Sign Up</Text>
+            Don't have an account? <Text className="text-white">Sign Up</Text>
           </Link>
         </View>
       </View>
