@@ -13,10 +13,10 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { baseURL } from "@/constants";
 import { useLocalSearchParams } from "expo-router";
 
 import MoodModal from "@/components/MoodModal";
+import { baseURL, dummyJournalEntries } from "@/constants";
 
 const moods = ["Happy", "Sad", "Neutral", "Calm", "Anxious"]; // Predefined mood options
 
@@ -25,7 +25,7 @@ const Journal = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date(date || new Date())
   );
-  const [journalEntries, setJournalEntries] = useState([]);
+  const [journalEntries, setJournalEntries] = useState(dummyJournalEntries);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newEntryTitle, setNewEntryTitle] = useState("");
@@ -136,18 +136,18 @@ const Journal = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <SafeAreaView className="flex-1 bg-dark">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
         <ScrollView keyboardShouldPersistTaps="handled" className="p-4">
           {/* Header */}
-          <View className="flex-row justify-between items-center bg-white p-4 shadow">
-            <Text className="text-lg font-bold">Your Journal</Text>
+          <View className="flex-row justify-between items-center bg-dark p-4 shadow">
+            <Text className="text-lg font-JakartaBold text-white">Your Journal</Text>
             {/* Calendar Button */}
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-              <Ionicons name="calendar" size={25} color="black" />
+              <Ionicons name="calendar" size={25} color="#D1EAEC" />
             </TouchableOpacity>
           </View>
 
@@ -165,8 +165,8 @@ const Journal = () => {
           )}
 
           {/* Selected Date Display */}
-          <View className="p-3 bg-blue-100">
-            <Text className="text-center text-blue-600 font-semibold">
+          <View className="p-3 bg-dark">
+            <Text className="text-center text-medium font-JakartaBold">
               Showing Entries for:{" "}
               {selectedDate.toLocaleDateString("en-US", {
                 year: "numeric",
@@ -181,18 +181,18 @@ const Journal = () => {
             journalEntries.map((item) => (
               <View
                 key={item._id}
-                className="p-3 bg-white shadow rounded-lg my-2"
+                className="p-3 bg-medium shadow rounded-lg my-2"
               >
-                <Text className="text-lg font-semibold">{item.title}</Text>
-                <Text className="text-gray-500">{item.entry}</Text>
-                <Text className="text-gray-600 mt-2 italic">
+                <Text className="text-lg text-[#fff] font-JakartaExtraBold">{item.title}</Text>
+                <Text className="text-white font-JakartaMedium">{item.entry}</Text>
+                <Text className="text-white mt-2 font-JakartaLight">
                   Time: {formatTime12Hour(item.timestamp)}{" "}
                   {/* Convert timestamp */}
                 </Text>
               </View>
             ))
           ) : (
-            <Text className="text-center text-gray-500 my-4">
+            <Text className="text-center text-medium font-JakartaMedium my-4">
               No journal entries for this date.
             </Text>
           )}
@@ -225,26 +225,28 @@ const Journal = () => {
         </ScrollView>
 
         {/* New Journal Entry Form */}
-        <View className="p-4 bg-white shadow rounded-lg mb-20 ">
-          <Text className="text-lg font-bold mb-2">New Journal Entry</Text>
+        <View className="p-4 bg-dark shadow rounded-lg mb-20">
+          <Text className="text-lg font-JakartaBold mb-2 text-white">New Journal Entry</Text>
           <TextInput
-            className="border p-2 rounded-lg mb-2"
+            className="p-2 rounded-lg mb-2 bg-medium font-JakartaMedium text-white"
             placeholder="Title"
+            placeholderTextColor="#D1EAEC"
             value={newEntryTitle}
             onChangeText={setNewEntryTitle}
           />
           <TextInput
-            className="border p-2 rounded-lg mb-2 h-20"
+            className="p-2 rounded-lg mb-2 h-20 bg-medium font-JakartaMedium text-white"
             placeholder="Write your thoughts..."
+            placeholderTextColor="#D1EAEC"
             value={newEntryContent}
             onChangeText={setNewEntryContent}
             multiline
           />
           <TouchableOpacity
-            className="bg-blue-500 p-3 rounded-lg mt-2"
+            className="bg-light p-3 rounded-lg mt-2 self-center w-1/2"
             onPress={submitJournalEntry}
           >
-            <Text className="text-white text-center">Submit Journal Entry</Text>
+            <Text className="text-[#fff] text-center font-JakartaExtraBold">Submit Entry</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

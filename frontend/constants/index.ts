@@ -29,8 +29,7 @@ import backgroundImg from "@/assets/images/background.png";
 import leaves from "@/assets/images/leaves.png";
 import logo from "@/assets/images/logo.png";
 
-// export const baseURL = "http://192.168.56.26:8000"
-export const baseURL = "http://192.168.0.102:8000";
+export const baseURL = "http://localhost:8000";
 
 export const images = {
   check,
@@ -161,5 +160,79 @@ export const dummyMessages = [
     id: "10",
     sender: "bot",
     text: "You're welcome! Remember that progress takes time, so be patient with yourself. Would you like to check in next week to discuss how these techniques are working for you?"
+  }
+];
+
+// Dummy journal entries for testing UI styles
+export const dummyJournalEntries = [
+  {
+    _id: "journal_001",
+    title: "Morning Reflection",
+    entry: "Woke up early today and enjoyed the sunrise. I'm feeling optimistic about the project deadline I've been worried about. The team seems to be making good progress.",
+    timestamp: "2025-03-15T08:30:00Z",
+    mood: "Happy"
+  },
+  {
+    _id: "journal_002",
+    title: "Feeling Overwhelmed",
+    entry: "Too many meetings today. Barely had time to work on actual tasks. I need to find a better way to manage my calendar and protect my focus time. Maybe I should start blocking out time for deep work.",
+    timestamp: "2025-03-15T12:45:00Z",
+    mood: "Anxious"
+  },
+  {
+    _id: "journal_003",
+    title: "Evening Thoughts",
+    entry: "Had a good conversation with my sister today. We haven't spoken in a while and it was nice to catch up. Reminded me that I should make more time for family despite how busy work gets.",
+    timestamp: "2025-03-15T20:15:00Z",
+    mood: "Calm"
+  },
+  {
+    _id: "journal_004",
+    title: "Project Breakthrough",
+    entry: "Finally solved that bug I've been stuck on for days! Sometimes the solution is simpler than you think. I need to remember to take a step back when I get stuck in the details.",
+    timestamp: "2025-03-14T16:20:00Z",
+    mood: "Happy"
+  },
+  {
+    _id: "journal_005",
+    title: "Missing Home",
+    entry: "Been thinking about my hometown today. It's been over a year since I visited. The pandemic really changed everything. Hope I can plan a trip back soon to see old friends and family.",
+    timestamp: "2025-03-14T19:05:00Z",
+    mood: "Sad"
+  },
+  {
+    _id: "journal_006",
+    title: "Just an Average Day",
+    entry: "Nothing particularly special today. Work was work. Made dinner, watched some TV. Sometimes ordinary days are nice too.",
+    timestamp: "2025-03-13T21:30:00Z",
+    mood: "Neutral"
+  },
+  {
+    _id: "journal_007",
+    title: "App Development Progress",
+    entry: "The UI for the journal feature is coming along nicely. Still need to implement the mood tracking system and connect everything to the backend. Estimated completion in about a week if everything goes smoothly. Need to test different entry lengths to make sure the layout handles them well. This is an intentionally longer entry to test how the UI handles multiple paragraphs and extended content that might cause scrolling or text overflow issues in the card layout.",
+    timestamp: "2025-03-12T14:50:00Z",
+    mood: "Happy"
+  },
+  {
+    _id: "journal_008",
+    title: "Health Goals",
+    entry: "Started a new workout routine today. Feeling sore but good. Need to be more consistent with exercise.",
+    timestamp: "2025-03-12T17:45:00Z",
+    mood: "Neutral"
+  },
+  {
+    _id: "journal_009",
+    title: "Late Night Anxiety",
+    entry: "Can't sleep. Worried about the presentation tomorrow. What if I forget important points? What if they ask questions I can't answer? I should have prepared more.",
+    timestamp: "2025-03-11T23:55:00Z",
+    mood: "Anxious"
+  },
+  {
+    _id: "journal_010",
+    title: "Weekend Plans",
+    entry: "Looking forward to hiking this weekend. The weather forecast looks perfect, and I need some time in nature after being cooped up all week.",
+    timestamp: "2025-03-11T12:10:00Z",
+    mood: "Happy"
   }
 ];
