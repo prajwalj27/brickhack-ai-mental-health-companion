@@ -36,7 +36,7 @@ const Meditate = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState(null);
-  const [showMoodModal, setShowMoodModal] = useState(false);
+  const [showMoodModal, setShowMoodModal] = useState(true);
   const [selectedMood, setSelectedMood] = useState("");
   const [showTimerPicker, setShowTimerPicker] = useState(false);
   const [sessionEnded, setSessionEnded] = useState(true);
@@ -231,7 +231,7 @@ const Meditate = () => {
 
       {/* Timer Display */}
       <View className="bg-white p-6 rounded-full shadow-md mb-4">
-        <Text className="text-4xl font-bold text-center">
+        <Text className="text-4xl font-JakartaBold text-center">
           {formatTime(countdown)}
         </Text>
       </View>
@@ -243,7 +243,7 @@ const Meditate = () => {
         disabled={isRunning}
       >
         <Text
-          className={`text-lg font-bold ${
+          className={`text-lg font-JakartaExtraBold ${
             isRunning ? "text-gray-400" : "text-white"
           }`}
         >
@@ -270,7 +270,7 @@ const Meditate = () => {
       )}
 
       {/* Audio Selection */}
-      <Text className="text-lg font-bold mb-2 text-dark">
+      <Text className="text-lg font-JakartaBold mb-2 text-dark">
         Select Background Audio:
       </Text>
       <View className="w-full flex justify-center flex-row flex-wrap">
@@ -284,9 +284,9 @@ const Meditate = () => {
             disabled={!sessionEnded}
           >
             <Text
-              className={`text-center ${
+              className={`text-center font-JakartaMedium ${
                 selectedAudio?.name === audio.name
-                  ? "text-dark font-bold"
+                  ? "text-dark"
                   : "text-white"
               }`}
             >
@@ -317,7 +317,7 @@ const Meditate = () => {
             className="bg-light px-4 py-3 rounded-lg m-2"
             onPress={togglePause}
           >
-            <Text className="text-dark font-bold text-lg w-24 text-center">
+            <Text className="text-dark font-JakartaExtraBold text-lg w-24 text-center">
               {isPaused ? "Resume" : "Pause"}
             </Text>
           </TouchableOpacity>
@@ -328,7 +328,7 @@ const Meditate = () => {
             disabled={isRunning || !sessionEnded}
           >
             <Text
-              className={`text-dark text-lg font-bold text-center w-24 ${
+              className={`text-dark text-lg font-JakartaExtraBold text-center w-24 ${
                 !sessionEnded ? "opacity-50" : ""
               }`}
             >

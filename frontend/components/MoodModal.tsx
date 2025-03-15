@@ -14,7 +14,7 @@ const MoodModal = ({ showModal, setShowModal, submitResponse, moods, selectedMoo
         style={{ zIndex: 10000 }}
       >
         <View className="bg-white p-6 rounded-lg w-3/4">
-          <Text className="text-lg font-bold mb-2 text-dark text-center">How do you feel now?</Text>
+          <Text className="text-lg mb-2 text-dark text-center font-JakartaExtraBold">How do you feel now?</Text>
 
           <View className="flex-row flex-wrap justify-center">
             {moods.map((mood) => (
@@ -28,9 +28,7 @@ const MoodModal = ({ showModal, setShowModal, submitResponse, moods, selectedMoo
                 onPress={() => setSelectedMood(mood)}
               >
                 <Text
-                  className={`${
-                    selectedMood === mood ? "text-dark font-bold" : "text-black"
-                  } text-center`}
+                  className="font-JakartaMedium text-dark text-center"
                 >
                   {mood}
                 </Text>
@@ -49,7 +47,7 @@ const MoodModal = ({ showModal, setShowModal, submitResponse, moods, selectedMoo
               className="bg-dark p-3 rounded-lg w-28"
               onPress={submitResponse}
             >
-              <Text className="text-white font-bold text-center">Submit</Text>
+              <Text className="text-white font-JakartaExtraBold text-center">Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
