@@ -86,54 +86,53 @@ const SignUp = () => {
   };
 
   return (
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1 bg-dark">
         <Image
-          source={images.backgroundImg}
-          resizeMode="cover"
-          className="absolute -z-10"
+          source={images.leaves}
+          resizeMode="contain"
+          className="absolute w-full right-0 top-0"
         />
         <View className="flex-1">
           <View className="relative w-full h-[250px]">
-            <Text className="text-2xl text-white font-JakartaBold absolute bottom-5 left-5">
+            <Text className="text-2xl text-[#fff] font-JakartaExtraBold absolute bottom-5 left-5">
               Create Your Account
             </Text>
           </View>
-          <View className="p-5">
+          <View className="px-5">
+            <Text className="text-white font-JakartaMedium mb-5">Sign up now for free and start meditating.</Text>
             <InputField
               label="Name"
-              placeholder="Enter your name"
+              placeholder="Name"
               icon={icons.person}
               value={form.name}
               onChangeText={(value) => setForm({ ...form, name: value })}
             />
             <InputField
               label="Email"
-              placeholder="Enter your email"
+              placeholder="Email"
               icon={icons.email}
               value={form.email}
               onChangeText={(value) => setForm({ ...form, email: value })}
             />
             <InputField
               label="Password"
-              placeholder="Enter your password"
+              placeholder="Password"
               icon={icons.lock}
               secureTextEntry={true}
               value={form.password}
               onChangeText={(value) => setForm({ ...form, password: value })}
+              containerStyle="mb-10"
             />
 
             <CustomButton
               title="Sign Up"
               onPress={onSignUpPress}
-              className="mt-10 bg-light"
+              className="mt-10 bg-light self-center"
             />
-
-            {/*  OAuth*/}
-            {/* <OAuth /> */}
 
             <Link
               href="/sign-in"
-              className="text-lg text-medium mt-10 text-center"
+              className="text-lg text-medium mt-4 text-center"
             >
               <Text>Already have an account? </Text>
               <Text className="text-white">Log In</Text>
