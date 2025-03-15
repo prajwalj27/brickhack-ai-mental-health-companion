@@ -36,7 +36,7 @@ const Meditate = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [selectedAudio, setSelectedAudio] = useState(null);
-  const [showMoodModal, setShowMoodModal] = useState(true);
+  const [showMoodModal, setShowMoodModal] = useState(false);
   const [selectedMood, setSelectedMood] = useState("");
   const [showTimerPicker, setShowTimerPicker] = useState(false);
   const [sessionEnded, setSessionEnded] = useState(true);
