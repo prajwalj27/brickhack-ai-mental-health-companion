@@ -35,6 +35,12 @@ const Home = () => {
         <Text className="text-white text-md font-bold">Skip</Text>
       </TouchableOpacity>
 
+      <Image
+        source={images.logo}
+        resizeMode="contain"
+        className="absolute top-24 w-1/2 h-1/2"
+      />
+
       <Swiper
         ref={swiperRef}
         loop={false}
@@ -54,11 +60,11 @@ const Home = () => {
               resizeMode="contain"
             />
             <View className="flex flex-row items-center justify-center w-full mt-10">
-              <Text className="text-white text-3xl font-bold mx-10 text-center">
+              <Text className="text-[#fff] text-3xl font-JakartaExtraBold mx-10 text-center">
                 {item.title}
               </Text>
             </View>
-            <Text className="text-md text-center text-white mx-10 mt-3">
+            <Text className="text-md text-center font-JakartaMedium text-white mx-10 mt-3">
               {item.description}
             </Text>
           </View>
