@@ -226,8 +226,8 @@ const Meditate = () => {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 items-center justify-center p-4">
-      {!showMoodModal && <AnimatedBackground isModalVisible={showMoodModal} />}
+    <SafeAreaView className="flex-1 items-center justify-center p-4 bg-dark">
+      {!showMoodModal && <AnimatedBackground isTimerRunning={isRunning} />}
 
       {/* Timer Display */}
       <View className="bg-white p-6 rounded-full shadow-md mb-4">
@@ -238,12 +238,14 @@ const Meditate = () => {
 
       {/* Timer Picker */}
       <TouchableOpacity
-        className="bg-blue-500 px-4 py-3 rounded-lg mb-4"
+        className="bg-dark px-4 py-3 rounded-lg mb-4"
         onPress={() => setShowTimerPicker(true)}
         disabled={isRunning}
       >
         <Text
-          className={`text-lg ${isRunning ? "text-gray-400" : "text-white"}`}
+          className={`text-lg font-bold ${
+            isRunning ? "text-gray-400" : "text-white"
+          }`}
         >
           Set Timer
         </Text>
@@ -296,7 +298,7 @@ const Meditate = () => {
 
       {/* Control Buttons */}
       <View className="flex-row space-x-4 mt-4 w-full justify-center">
-        <TouchableOpacity
+        {/* <TouchableOpacity
           className="bg-light px-4 py-3 rounded-lg m-2"
           onPress={startMeditation}
           disabled={isRunning || !sessionEnded}
@@ -308,15 +310,29 @@ const Meditate = () => {
           >
             Start
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        {(isRunning || isPaused) && (
+        {isRunning || isPaused ? (
           <TouchableOpacity
-            className="bg-yellow-500 px-4 py-3 rounded-lg m-2"
+            className="bg-light px-4 py-3 rounded-lg m-2"
             onPress={togglePause}
           >
-            <Text className="text-white font-bold text-lg w-24 text-center">
+            <Text className="text-dark font-bold text-lg w-24 text-center">
               {isPaused ? "Resume" : "Pause"}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            className="bg-light px-4 py-3 rounded-lg m-2"
+            onPress={startMeditation}
+            disabled={isRunning || !sessionEnded}
+          >
+            <Text
+              className={`text-dark text-lg font-bold text-center w-24 ${
+                !sessionEnded ? "opacity-50" : ""
+              }`}
+            >
+              Start
             </Text>
           </TouchableOpacity>
         )}
@@ -375,6 +391,7 @@ const Meditate = () => {
           </View>
         </View>
       </Modal> */}
+
       <MoodModal
         showModal={showMoodModal}
         setShowModal={setShowMoodModal}
