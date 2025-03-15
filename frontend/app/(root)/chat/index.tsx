@@ -488,17 +488,17 @@ const AiChat = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View
-            className={`p-3 my-1 rounded-lg ${
+            className={`p-3 my-1 rounded-3xl ${
               item.sender === "user"
-                ? "bg-medium self-end max-w-[85%]"
-                : "self-center w-full"
+                ? "bg-medium self-end max-w-[85%] mr-3 rounded-es-md"
+                : "self-start w-full"
             }`}
           >
             <Text
               className={`font text-white ${
                 item.sender === "user"
                   ? "font-JakartaMedium"
-                  : "font-JakartaBold text-left"
+                  : "font-JakartaMedium text-left"
               }`}
             >
               {item.id === typingMessageId ? displayText : item.text}
@@ -515,9 +515,9 @@ const AiChat = () => {
         className="bg-dark p-3 flex-row items-center"
       >
         <TextInput
-          className="flex-1 p-3 rounded-full bg-medium text-white font-JakartaMedium"
+          className="flex-1 p-3 rounded-full bg-white text-dark font-JakartaMedium"
           placeholder="Type a message..."
-          placeholderTextColor="#D1EAEC"
+          placeholderTextColor="#253334"
           value={inputText}
           onChangeText={setInputText}
         />

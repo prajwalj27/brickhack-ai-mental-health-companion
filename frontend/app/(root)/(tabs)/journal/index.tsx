@@ -225,19 +225,19 @@ const Journal = () => {
         </ScrollView>
 
         {/* New Journal Entry Form */}
-        <View className="p-4 bg-dark shadow rounded-lg mb-20">
+        <View className="p-4 bg-dark shadow shadow-black/30 rounded-lg mb-20">
           <Text className="text-lg font-JakartaBold mb-2 text-white">New Journal Entry</Text>
           <TextInput
-            className="p-2 rounded-lg mb-2 bg-medium font-JakartaMedium text-white"
+            className="p-2 rounded-lg mb-2 bg-white font-JakartaMedium text-dark"
             placeholder="Title"
-            placeholderTextColor="#D1EAEC"
+            placeholderTextColor="#253334"
             value={newEntryTitle}
             onChangeText={setNewEntryTitle}
           />
           <TextInput
-            className="p-2 rounded-lg mb-2 h-20 bg-medium font-JakartaMedium text-white"
+            className="p-2 rounded-lg mb-2 h-20 bg-white font-JakartaMedium text-dark"
             placeholder="Write your thoughts..."
-            placeholderTextColor="#D1EAEC"
+            placeholderTextColor="#253334"
             value={newEntryContent}
             onChangeText={setNewEntryContent}
             multiline
