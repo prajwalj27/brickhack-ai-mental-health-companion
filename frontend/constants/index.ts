@@ -23,27 +23,20 @@ import selectedMarker from "@/assets/icons/selected-marker.png";
 import star from "@/assets/icons/star.png";
 import target from "@/assets/icons/target.png";
 import to from "@/assets/icons/to.png";
+
 import check from "@/assets/images/check.png";
-import getStarted from "@/assets/images/get-started.png";
-import message from "@/assets/images/message.png";
-import noResult from "@/assets/images/no-result.png";
-import onboarding1 from "@/assets/images/onboarding1.png";
-import onboarding2 from "@/assets/images/onboarding2.png";
-import onboarding3 from "@/assets/images/onboarding3.png";
-import signUpCar from "@/assets/images/signup-car.png";
+import backgroundImg from "@/assets/images/background.png";
+import leaves from "@/assets/images/leaves.png";
+import logo from "@/assets/images/logo.png";
 
 // export const baseURL = "http://192.168.56.26:8000"
-export const baseURL = "http://192.168.0.102:8000"
+export const baseURL = "http://192.168.0.102:8000";
 
 export const images = {
-  onboarding1,
-  onboarding2,
-  onboarding3,
-  getStarted,
-  signUpCar,
   check,
-  noResult,
-  message,
+  backgroundImg,
+  leaves,
+  logo
 };
 
 export const icons = {

@@ -1,11 +1,17 @@
 import { router } from "expo-router";
 import { useRef, useState } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 
 import CustomButton from "@/components/CustomButton";
-import { onboarding } from "@/constants";
+import { onboarding, images } from "@/constants";
 
 const Home = () => {
   const swiperRef = useRef<Swiper>(null);
@@ -14,14 +20,19 @@ const Home = () => {
   const isLastSlide = activeIndex === onboarding.length - 1;
 
   return (
-    <SafeAreaView className="flex h-full items-center justify-between bg-white">
+    <SafeAreaView className="flex h-full items-center justify-between bg-dark">
+      <Image
+        source={images.backgroundImg}
+        resizeMode="cover"
+        className="absolute"
+      />
       <TouchableOpacity
         onPress={() => {
           router.replace("/(auth)/sign-up");
         }}
         className="w-full flex justify-end items-end p-5"
       >
-        <Text className="text-black text-md font-JakartaBold">Skip</Text>
+        <Text className="text-white text-md font-bold">Skip</Text>
       </TouchableOpacity>
 
       <Swiper
@@ -43,11 +54,11 @@ const Home = () => {
               resizeMode="contain"
             />
             <View className="flex flex-row items-center justify-center w-full mt-10">
-              <Text className="text-black text-3xl font-bold mx-10 text-center">
+              <Text className="text-white text-3xl font-bold mx-10 text-center">
                 {item.title}
               </Text>
             </View>
-            <Text className="text-md font-JakartaSemiBold text-center text-[#858585] mx-10 mt-3">
+            <Text className="text-md text-center text-white mx-10 mt-3">
               {item.description}
             </Text>
           </View>
@@ -61,7 +72,7 @@ const Home = () => {
             ? router.replace("/(auth)/sign-up")
             : swiperRef.current?.scrollBy(1)
         }
-        className="w-11/12 mt-10 mb-5"
+        className="mt-10 mb-16 bg-light"
       />
     </SafeAreaView>
   );
