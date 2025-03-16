@@ -33,7 +33,7 @@ export default function Page() {
     <SafeAreaView className="bg-dark h-full p-5">
       <SignedIn>
         <Text className="text-white text-2xl mt-10 font-JakartaExtraBold">
-          {getTimeBasedGreeting()}, {user?.firstName}!
+          {getTimeBasedGreeting()}, {user?.firstName.split(" ")[0]}!
         </Text>
         <Text className="text-light text-lg my-4 font-JakartaMedium">
           How are you feeling now?
@@ -111,7 +111,7 @@ export default function Page() {
                 Journaling 101
               </Text>
               <Text className="text-lg font-JakartaMedium text-dark">
-              Capture your thoughts & transform your perspective.
+                Capture your thoughts & transform your perspective.
               </Text>
             </View>
             <TouchableOpacity

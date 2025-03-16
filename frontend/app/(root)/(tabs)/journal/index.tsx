@@ -144,7 +144,9 @@ const Journal = () => {
         <ScrollView keyboardShouldPersistTaps="handled" className="p-4">
           {/* Header */}
           <View className="flex-row justify-between items-center bg-dark p-4 shadow">
-            <Text className="text-lg font-JakartaBold text-white">Your Journal</Text>
+            <Text className="text-lg font-JakartaBold text-white">
+              Your Journal
+            </Text>
             {/* Calendar Button */}
             <TouchableOpacity onPress={() => setShowDatePicker(true)}>
               <Ionicons name="calendar" size={25} color="#D1EAEC" />
@@ -183,8 +185,12 @@ const Journal = () => {
                 key={item._id}
                 className="p-3 bg-medium shadow rounded-lg my-2"
               >
-                <Text className="text-lg text-[#fff] font-JakartaExtraBold">{item.title}</Text>
-                <Text className="text-white font-JakartaMedium">{item.entry}</Text>
+                <Text className="text-lg text-[#fff] font-JakartaExtraBold">
+                  {item.title}
+                </Text>
+                <Text className="text-white font-JakartaMedium">
+                  {item.entry}
+                </Text>
                 <Text className="text-white mt-2 font-JakartaLight">
                   Time: {formatTime12Hour(item.timestamp)}{" "}
                   {/* Convert timestamp */}
@@ -226,7 +232,9 @@ const Journal = () => {
 
         {/* New Journal Entry Form */}
         <View className="p-4 bg-dark shadow shadow-black/30 rounded-lg mb-20">
-          <Text className="text-lg font-JakartaBold mb-2 text-white">New Journal Entry</Text>
+          <Text className="text-lg font-JakartaBold mb-2 text-white">
+            New Journal Entry
+          </Text>
           <TextInput
             className="p-2 rounded-lg mb-2 bg-white font-JakartaMedium text-dark"
             placeholder="Title"
@@ -246,7 +254,9 @@ const Journal = () => {
             className="bg-light p-3 rounded-lg mt-2 self-center w-1/2"
             onPress={submitJournalEntry}
           >
-            <Text className="text-[#fff] text-center font-JakartaExtraBold">Submit Entry</Text>
+            <Text className="text-[#fff] text-center font-JakartaExtraBold">
+              Submit Entry
+            </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
