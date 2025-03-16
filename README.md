@@ -7,18 +7,19 @@ This app is **not a therapist** but a **companion**, offering a safe space for u
 
 ## 🚀 **Features**
 
-✔️ **AI Chat Companion** – Contextual conversations powered by **LangChain RAG** and sentiment analysis.
-✔️ **Journaling** – Users can record thoughts, track moods, and reflect on emotions.
-✔️ **Meditation** – Customizable meditation sessions with ambient sounds.  
-✔️ **Personalized AI** – Remembers past interactions for more meaningful responses.  
+* ✔️ **AI Chat Companion** – Contextual conversations powered by **LangChain RAG** and sentiment analysis.
+* ✔️ **Journaling** – Users can record thoughts, track moods, and reflect on emotions.
+* ✔️ **Meditation** – Customizable meditation sessions with ambient sounds.
+* ✔️ **Personalized AI** – Remembers past interactions for more meaningful responses.
 
 ---
 
 ## 🛠 **Setup Instructions**
 
-The project consists of two main components:
-📌 **Backend** - Powered by **FastAPI**, handling AI processing and journaling.  
-📌 **Frontend** - Built with **React Native (Expo)** for a seamless mobile experience.
+The project consists of two main components:  
+
+* 📌 **Backend** - Powered by **FastAPI**, handling AI processing and journaling.
+* 📌 **Frontend** - Built with **React Native (Expo)** for a seamless mobile experience.
 
 ### 👉 [Backend Setup Instructions](./backend/README.md)
 
