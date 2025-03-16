@@ -1,50 +1,109 @@
-# Welcome to your Expo app 👋
+# React Native Expo Frontend
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is the **frontend** component of our AI Mental Health Companion, built with [Expo](https://expo.dev). It provides a **clean and intuitive UI** for users to chat with the AI, journal their thoughts, and meditate with calming sounds.
 
-## Get started
+## ✨ Features
 
-1. Install dependencies
+1. **Conversational AI Chat** – Talk to an empathetic AI companion about your emotions.
+2. **Journaling** – Log your daily thoughts and moods.
+3. **Meditation** – Timer and soothing sounds to help you find calm.
+4. **User Management (Clerk)** – Easily manage user sign-up and login.
+
+---
+
+## 🖼 UI Sneak Peek
+
+Below are a few screenshots showcasing the **app's UI**.
+
+| Onboarding                      | Signup | Login |
+| ------------------------------- | ------ | ----- |
+| ![Chat Screen](./assets/chat.png) |        |       |
+
+| Home Screen | Journal Screen | Meditate Screen |
+| ----------- | -------------- | --------------- |
+|             |                |                 |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Installation
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/<your-repo>.git
+   cd <your-repo>/frontend
+   ```
+2. Install dependencies
 
    ```bash
    npm install
    ```
 
-2. Start the app
+   or
 
    ```bash
-    npx expo start
+   yarn install
    ```
 
-In the output, you'll find options to open the app in a
+### 2. Adding Your API Keys
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+We use **Clerk** for user management. Go to your `.env` file or create a new one in your project root (if it doesn’t exist) and add:
 
 ```bash
-npm run reset-project
+EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=<YOUR_CLERK_PUBLISHABLE_KEY>
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+*(Note: The prefix `EXPO_PUBLIC_` ensures the variable is accessible at runtime in Expo.)*
 
-## Learn more
+### 3. Setting the `baseURL`
 
-To learn more about developing your project with Expo, look at the following resources:
+The frontend **needs to connect** to the FastAPI backend. Obtain your **local machine IP address** by running:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+ipconfig
+```
 
-## Join the community
+on Windows (or `ifconfig` on macOS/Linux). Then, **update** `constants/index.tsx` with the correct IP and port:
 
-Join our community of developers creating universal apps.
+```ts
+// constants/index.tsx
+export const baseURL = "http://<YOUR-IP-ADDRESS>:8000";
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 4. Running the Expo App
+
+1. Start the development server:
+   ```bash
+   npx expo start
+   ```
+2. Choose one of the options in the Expo CLI output:
+   * Open the app in an **Android emulator** or  **iOS simulator** .
+   * Scan the QR code with **Expo Go** on your physical device.
+   * Use a **development build** or **web** preview if needed.
+
+---
+
+## 🛠 Project Structure
+
+```bash
+frontend/
+  ├── app/                  # Main app directory with file-based routing
+  ├── components/           # Components created for the frontend
+  ├── constants/            # Contains baseURL and other constants used for development
+  ├── assets/               # Images, sounds, icons
+  ├── .env                  # Environment variables (Clerk keys, etc.)
+  ├── package.json
+  └── README.md             # You're here!
+```
+
+## 🙏 Contributing
+
+Feel free to open issues or submit pull requests for improvements or bug fixes.
+
+Thank you for helping make this mental health companion better for everyone!
+
+---
+
+**Enjoy building and exploring our AI Mental Health Companion frontend!**
