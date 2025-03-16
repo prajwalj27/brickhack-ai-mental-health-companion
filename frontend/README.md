@@ -15,17 +15,19 @@ This is the **frontend** component of our AI Mental Health Companion, built with
 
 Below are a few screenshots showcasing the **app's UI**.
 
-| Onboarding                                                                                                                         | Signup | Login |
-| ---------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
-| ![Onboarding](https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg) |        |       |
+| Onboarding                                                                                                                                                         | Signup                                                                                                                                                     | Login                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/signup.jpg" alt="signup" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/login.jpg" alt="login" width="200">` |
 
-| Home Screen | Journal Screen | Meditate Screen |
-| ----------- | -------------- | --------------- |
-|             |                |                 |
+<img src="./assets/chat.png" alt="Chat Screen" width="300">
 
 
+| Home Screen                                                                                                                                            | Journal Screen                                                                                                                                               | Meditate Screen                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/home.jpg" alt="home" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/journal.jpg" alt="journal" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/meditate.jpg" alt="meditate" width="200">` |
 
-<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="Chat Screen" width="300">
+
+
 
 
 ---
