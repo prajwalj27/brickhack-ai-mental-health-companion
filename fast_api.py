@@ -1,9 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 from llm_handler import get_results
-from database_handler import get_chats_by_date, save_journal_entry, get_journals_by_date
-from database_handler import get_mongo_collection
-from datetime import datetime, timedelta
+from mongodb_database_handler import get_chats_by_date, save_journal_entry, get_journals_by_date
 from typing import Optional
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -27,51 +25,27 @@ class JournalEntry(BaseModel):
     entry: str
     timestamp: Optional[str] = None  # ISO format timestamp
 
-# Endpoint to receive prompt from the user
+
 @app.post("/chat/")
 async def chat(prompt: Prompt):
     """
     Receive the prompt from the user and return the response
     :param prompt:
-    :return:
+    :return: the response from the LLM model
     """
     # Get the response from the LLM model
     response = get_results(prompt.prompt)
 
     return {"response": response}
 
+
 @app.get("/receive_hello/")
 async def root():
+    """
+    Simple Hello World endpoint for testing
+    :return: a message
+    """
     return {"message": "Hello World"}
-
-@app.get("/get_chats_by_date/")
-async def get_chats_by_date(date: str):
-    """
-    Fetch chatbot conversations for a given date, sorted by timestamp.
-    :param date: Date in YYYY-MM-DD format
-    :return: List of conversations
-    """
-    try:
-        collection = get_mongo_collection()
-
-        # Convert date string to datetime objects
-        start_date = datetime.strptime(date, "%Y-%m-%d")
-        end_date = start_date + timedelta(days=1)
-
-        # Query MongoDB for records within the given date range
-        conversations = list(collection.find(
-            {"timestamp": {"$gte": start_date, "$lt": end_date}}
-        ).sort("timestamp", 1))
-
-        # Convert ObjectId and timestamp to readable format
-        for convo in conversations:
-            convo["_id"] = str(convo["_id"])
-            convo["timestamp"] = convo["timestamp"].isoformat()
-
-        return conversations
-
-    except Exception as e:
-        raise Exception(f"Error fetching conversations: {e}")  # Check formatting
 
 
 @app.get("/conversations/")
@@ -91,7 +65,9 @@ async def get_conversations(date: str = Query(..., description="Date in YYYY-MM-
 @app.post("/journal/")
 async def create_journal(journal: JournalEntry):
     """
-    Store a new journal entry in MongoDB.
+    Save a journal entry to the journal collection in MongoDB
+    :param journal: the journal entry
+    :return: acknowledgement message
     """
     try:
         journal_id = save_journal_entry(journal.title, journal.entry)
@@ -103,7 +79,9 @@ async def create_journal(journal: JournalEntry):
 @app.get("/journal/")
 async def get_journal_entries(date: str = Query(..., description="Date in YYYY-MM-DD format")):
     """
-    Retrieve all journal entries for a given date, sorted by timestamp.
+    Get all journal entries for a given date
+    :param date: the date in YYYY-MM-DD format
+    :return: the journal entries
     """
     try:
         journals = get_journals_by_date(date)
