@@ -15,9 +15,9 @@ This is the **frontend** component of our AI Mental Health Companion, built with
 
 Below are a few screenshots showcasing the **app's UI**.
 
-| Onboarding                      | Signup | Login |
-| ------------------------------- | ------ | ----- |
-| ![Chat Screen](./assets/chat.png) |        |       |
+| Onboarding | Signup | Login |
+| ---------- | ------ | ----- |
+| ![img]()     |        |       |
 
 | Home Screen | Journal Screen | Meditate Screen |
 | ----------- | -------------- | --------------- |
