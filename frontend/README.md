@@ -17,18 +17,11 @@ Below are a few screenshots showcasing the **app's UI**.
 
 | Onboarding                                                                                                                                                         | Signup                                                                                                                                                     | Login                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200"> | <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/signup.jpg" alt="signup" width="200"> | <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/login.jpg" alt="login" width="200"> |
+| `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/signup.jpg" alt="signup" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/login.jpg" alt="login" width="200">` |
 
-<img src="./assets/chat.png" alt="Chat Screen" width="300">
-
-
-| Home Screen                                                                                                                                                        | Journal Screen                                                                                                                                                     | Meditate Screen                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200"> | <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200"> | <img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg" alt="onboarding" width="200"> |
-
-
-
-
+| Home Screen                                                                                                                                            | Journal Screen                                                                                                                                               | Meditate Screen                                                                                                                                                | Chat Screen                                                                                                                                            |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/home.jpg" alt="home" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/journal.jpg" alt="journal" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/meditate.jpg" alt="meditate" width="200">` | `<img src="https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/chat.jpg" alt="chat" width="200">` |
 
 ---
 
@@ -62,7 +55,7 @@ We use **Clerk** for user management. Go to your `.env` file or create a new one
 EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=<YOUR_CLERK_PUBLISHABLE_KEY>
 ```
 
-*(Note: The prefix `EXPO_PUBLIC_` ensures the variable is accessible at runtime in Expo.)*
+_(Note: The prefix `EXPO_PUBLIC_` ensures the variable is accessible at runtime in Expo.)\_
 
 ### 3. Setting the `baseURL`
 
@@ -86,9 +79,9 @@ export const baseURL = "http://<YOUR-IP-ADDRESS>:8000";
    npx expo start
    ```
 2. Choose one of the options in the Expo CLI output:
-   * Open the app in an **Android emulator** or  **iOS simulator** .
-   * Scan the QR code with **Expo Go** on your physical device.
-   * Use a **development build** or **web** preview if needed.
+   - Open the app in an **Android emulator** or **iOS simulator** .
+   - Scan the QR code with **Expo Go** on your physical device.
+   - Use a **development build** or **web** preview if needed.
 
 ---
 
