@@ -17,7 +17,7 @@ Below are a few screenshots showcasing the **app's UI**.
 
 | Onboarding | Signup | Login |
 | ---------- | ------ | ----- |
-| ![img]()     |        |       |
+| ![Onboarding](https://github.com/prajwalj27/brickhack-ai-mental-health-companion/blob/main/frontend/assets/images/UI/onboarding.jpg)     |        |       |
 
 | Home Screen | Journal Screen | Meditate Screen |
 | ----------- | -------------- | --------------- |
