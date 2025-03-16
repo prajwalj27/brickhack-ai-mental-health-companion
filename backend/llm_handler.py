@@ -1,27 +1,39 @@
+# To read API key from .env file
 from dotenv import load_dotenv
+# LangChain imports
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
-from datetime import datetime, timezone
 from langchain_core.output_parsers import StrOutputParser
-from transformers import pipeline
-from database_handler import get_mongo_collection, get_past_conversations, get_all_summaries
-import os
 from langchain_openai import OpenAIEmbeddings
+# Hugging Face imports
+from transformers import pipeline
+# MongoDB Database Handler
+from mongodb_database_handler import (upload_chat_in_conversation,
+                                      get_past_conversations,
+                                      get_all_summaries)
+# Weaviate imports
 import weaviate
 import weaviate.classes as wvc
+# Other imports
+import os
 
 
 def analyze_sentiment(text):
     """
     This functions takes in a text and returns the sentiment of the text.
-    :param text:
-    :return:
+    Current model used: cardiffnlp/twitter-roberta-base-sentiment-latest
+    :param text: The text to score
+    :return: a normalized sentiment score between -1 and 1
     """
-    sentiment_analyzer = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment-latest")
+    # Initialize the sentiment analysis pipeline
+    sentiment_analyzer = pipeline("sentiment-analysis",
+                                  model="cardiffnlp/twitter-roberta-base-sentiment-latest")
+    # Get the sentiment of the text
     result = sentiment_analyzer(text)
     label = result[0]["label"].lower()
     score = result[0]["score"]
 
+    # Normalize the sentiment score
     sentiment_mapping = {
         "positive": 1,
         "negative": -1,
@@ -42,9 +54,10 @@ def analyze_sentiment(text):
 
 def initialize_llm(model="gpt-4o-mini"):
     """
-    * Initialize the LLM model
-    * Also, includes getting API key from .env file
-    :return:
+    Initialize the LLM model
+    Also, includes getting API key from .env file
+    Current models used: gpt-4o, gpt-4o-mini
+    :return: the llm model object
     """
     # Load environment variables
     load_dotenv()
@@ -56,14 +69,12 @@ def initialize_llm(model="gpt-4o-mini"):
 
 def get_system_prompt():
     """
-    Return the system prompt
-    :return:
+    Define the system prompt for the therapist chatbot
+    :return: the system prompt
     """
     system_prompt = """
-    You are a therapist. You have to be calm, gentle, understanding and empathetic. You have to listen to the user and 
-    respond accordingly. You do not have to be too cheerful. You have to resonate with the user and listen the user's 
-    problem. Dont give solutions. Your task is to listen. If you do not understand what the user is saying, be patient,
-    do not output gibberish. Ask the user to explain more, but do not be too direct. Be indirect and gentle.
+    You are a therapist. You have to be calm, gentle, understanding and empathetic. Dont give solutions only resonate. 
+    Your task is to listen. If you do not understand what the user is saying, be patient, do not output gibberish.
     
     Here is the past conversation history:
     {past_conversation}
@@ -80,7 +91,7 @@ def get_system_prompt():
     you should be more empathetic and understanding. If the sentiment score is positive, you should be more encouraging 
     and supportive but not too cheerful.
     
-    Note: Do not repeat what the user is saying. Do not say I understand and repeat exactly what the user is saying. If 
+    Note: Do not repeat what the user is saying. Do not repeat exactly what the user is saying. If 
     you think the user is trying it get reassurance, go with flow and give him that reassurance, but dont be over excited.
     Try to have a conversation. And dont keep asking only questions. Keep it natural.
     """
@@ -88,15 +99,23 @@ def get_system_prompt():
     return system_prompt
 
 def summarize(text):
+    """
+    Summarize the given text using the LLM model.
+    Model used: gpt-4o-mini
+    :param text: the text to summarize
+    :return: the summarized text
+    """
+    #todo: Implement the function to summarize the given text
     llm_gpt4o_mini = initialize_llm("gpt-4o-mini")
     prompt = """
-    Your only task to summarize the given text. Do not add any additional information. Each object has its own date"""
+    Your only task to summarize the given text. Do not add any additional information. 
+    Each object has its own date"""
 
 def get_results(user_prompt):
     """
     Receives user's prompt from the user. Invokes the LLM model to get the response.
-    :param user_prompt:
-    :return:
+    :param user_prompt: the user's input query
+    :return: the response from the LLM model
     """
     # Get model instance
     llm = initialize_llm("gpt-4o")
@@ -105,31 +124,24 @@ def get_results(user_prompt):
     system_prompt = get_system_prompt()
 
 
-
-    # Get relevant chunks from the transcript
-    relevant_chunks = retrieve_relevant_chunks(user_prompt)
-
-
-
     # Short Term Context - Last 10 conversation
-    collection = get_mongo_collection("conversation")
     # Get past conversations
-    past_conversations = get_past_conversations(collection)
+    past_conversations = get_past_conversations(limit=10)
     # Convert past conversations into a string
-    past_conversations_context = "\n".join([f"user_input: {msg['user_input']}\nresponse: {msg['response']}" for msg in past_conversations])
+    past_conversations_context = "\n".join([f"user_input: {msg['user_input']}\nresponse: {msg['response']}"
+                                            for msg in past_conversations])
 
 
     # Long Term context - All summaries
     summaries = get_all_summaries()
-    # Format summaries
+    # Format summaries and convert into a string
     summaries_context = "\n".join([
         f"Date: {s['date']}\nOverall Mood: {s['overall_mood']}\nSentiment Score: {s['sentiment_score']}\n"
         f"Chat Summary: {s['chat_summary']}\nJournal Summary: {s['journal_summary']}\n"
         for s in summaries]) if summaries else "No summaries available."
 
 
-
-    # Get the sentiment of the user's prompt - normalize the score
+    # Get the normalized sentiment score of the user's prompt
     sentiment_score = analyze_sentiment(user_prompt)
 
     # Format the system prompt with context
@@ -138,24 +150,23 @@ def get_results(user_prompt):
                                             sentiment_score=sentiment_score,
                                             summaries=summaries_context)
 
+    # Create a prompt template
     prompt = PromptTemplate(
         template=formatted_prompt,
         input_variables=[]
     )
 
+    # Create an output parser
     output_parser = StrOutputParser()
 
+    # Define the chain of operations
     chain = prompt | llm | output_parser
 
+    # Invoke the chain and get the result
     result =  chain.invoke({})
 
-    collection = get_mongo_collection("conversation")
-    collection.insert_one(
-        {"user_input": user_prompt,
-         "sentiment_score": sentiment_score,
-         "response": result,
-         "timestamp": datetime.now(timezone.utc).isoformat()}
-    )
+    # Upload the chat in the conversation collection in MongoDB
+    upload_chat_in_conversation(user_prompt, sentiment_score, result)
 
     return result
 
@@ -172,7 +183,7 @@ def retrieve_relevant_chunks(user_prompt, top_k=5):
     WCD_URL = os.getenv("WCD_URL")
     WCD_API_KEY = os.getenv("WCD_API_KEY")
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
+    # Check if environment variables are set
     if not WCD_URL or not WCD_API_KEY or not OPENAI_API_KEY:
         raise ValueError("ERROR: Missing required environment variables in .env file!")
 
@@ -192,6 +203,7 @@ def retrieve_relevant_chunks(user_prompt, top_k=5):
         # Perform Vector Search in Weaviate
         therapy_session = client.collections.get("TherapySession")
 
+        # Perform Vector Search
         results = therapy_session.query.near_vector(
             near_vector=query_embedding,
             limit=top_k,
@@ -212,5 +224,3 @@ def retrieve_relevant_chunks(user_prompt, top_k=5):
 
     finally:
         client.close()
-
-

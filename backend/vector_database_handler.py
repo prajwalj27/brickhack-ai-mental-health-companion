@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import json
 from tqdm import tqdm
 
-# Load environment variables
+# Load Weaviate API Key and URL from .env file
 load_dotenv()
 WCD_URL = os.getenv("WCD_URL")
 WCD_API_KEY = os.getenv("WCD_API_KEY")
@@ -15,6 +15,10 @@ if not WCD_URL or not WCD_API_KEY:
     raise ValueError("ERROR: WCD_URL or WCD_API_KEY is missing. Check your .env file!")
 
 def get_client():
+    """
+    Connect to Weaviate Cloud using the provided API key and URL.
+    :return: the Weaviate client object
+    """
     # Connect to Weaviate Cloud
     client = weaviate.connect_to_weaviate_cloud(
         cluster_url=WCD_URL,
@@ -23,7 +27,12 @@ def get_client():
 
     return client
 
-def handle_schema_creation(client):
+def handle_schema_creation(client=get_client()):
+    """
+    Generate collection schema for storing therapy session transcripts.
+    :param client: the Weaviate client object
+    :return: None
+    """
     try:
         # Define Schema for TherapySession Collection
         if "TherapySession" not in [col.name for col in client.collections.list_all()]:
@@ -54,15 +63,22 @@ def handle_schema_creation(client):
         client.close()
 
 
-def upload_embedded_transcripts(client, embedded_transcript_path):
+def upload_embedded_transcripts(client=get_client(), embedded_transcript_path=None):
+    """
+    Upload embedded therapy session transcripts to Weaviate.
+    :param client: the Weaviate client object
+    :param embedded_transcript_path: .json file containing embedded transcripts
+    :return: None
+    """
     try:
         # Load embedded transcripts from JSON file
         with open(embedded_transcript_path, "r") as file:
             embedded_transcripts = json.load(file)
 
-        # Upload embedded transcripts to Weaviate
+        # Get TherapySession class
         therapy_session_class = client.collections.get("TherapySession")
 
+        # Upload each chunk to TherapySession collection
         for chunk in tqdm(embedded_transcripts, desc="Uploading Chunks to Weaviate"):
             therapy_session_class.data.insert(
                 properties={
@@ -77,26 +93,3 @@ def upload_embedded_transcripts(client, embedded_transcript_path):
     finally:
         # Close connection to prevent memory leaks
         client.close()
-
-# handle_schema_creation(get_client())
-# upload_embedded_transcripts(get_client(), "embedded_transcript.json")
-
-
-
-
-client = get_client()
-
-# Fetch a specific object by ID
-object_id = "00937e60-80bd-4f49-9387-4db6ac12d1ec"  # Replace with an actual ID from Weaviate
-therapy_session = client.collections.get("TherapySession")
-retrieved_object = therapy_session.query.fetch_object_by_id(object_id, include_vector=True)
-
-# Print the retrieved object with its vector
-print(retrieved_object.properties)  # Shows session_id and text
-print(retrieved_object.vector)  # Should display the vector
-
-client.close()
-
-
-
-

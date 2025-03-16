@@ -67,10 +67,3 @@ def generate_embeddings(chunked_transcript_path, embedded_transcript_path):
         json.dump(embedded_chunks, file, indent=4)
 
     print(f"Embeddings generated! {len(embedded_chunks)} chunks saved to {embedded_transcript_path}.")
-
-
-transcript_path = "transcript.json"
-chunked_transcript_path = "chunked_transcript.json"
-embedded_transcript_path = "embedded_transcript.json"
-generate_chunk_json(transcript_path, chunked_transcript_path)
-generate_embeddings(chunked_transcript_path, embedded_transcript_path)
