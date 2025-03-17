@@ -55,13 +55,13 @@ uvicorn fast_api:app --host 0.0.0.0 --port 8000 --reload
 
 ## 🔥 API Documentation
 
-Once running, you can view the interactive API documentation at:
-📌 **Swagger UI:** [`http://localhost:8000/docs`](http://localhost:8000/docs)
+Once running, you can view the interactive API documentation at:  
+📌 **Swagger UI:** [`http://localhost:8000/docs`](http://localhost:8000/docs)  
 📌 **Redoc:** [`http://localhost:8000/redoc`](http://localhost:8000/redoc)
 
 ---
 
 ## More Details
 
-For Frontend setup, refer to the **[Backend README](../frontend/README.md)**.
+For Frontend setup, refer to the **[Backend README](../frontend/README.md)**.  
 For Backend setup, revisit **this README** anytime.
