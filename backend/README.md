@@ -46,7 +46,7 @@ python main.py
 or manually using:
 
 ```sh
-uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn fast_api:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 🔹 This will host the API on `http://0.0.0.0:8000`.
