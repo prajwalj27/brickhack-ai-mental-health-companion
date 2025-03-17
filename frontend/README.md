@@ -98,14 +98,6 @@ frontend/
   └── README.md             # You're here!
 ```
 
-## 🙏 Contributing
-
-Feel free to open issues or submit pull requests for improvements or bug fixes.
-
-Thank you for helping make this mental health companion better for everyone!
-
----
-
 ## 🎨 Figma Design
 
 All UI assets and design inspirations were taken from this **[Figma Design](https://www.figma.com/community/file/1347377166542820661/meditation-app-ui-design-templete-with-prototype-interactive-component)**.
@@ -115,5 +107,5 @@ All UI assets and design inspirations were taken from this **[Figma Design](http
 
 ## More Details
 
-For Backend setup, refer to the **[Backend README](../backend/README.md)**.
+For Backend setup, refer to the **[Backend README](../backend/README.md)**.  
 For Frontend setup, revisit **this README** anytime.
