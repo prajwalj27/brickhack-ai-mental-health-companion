@@ -35,7 +35,7 @@ import anxious from "@/assets/images/anxious.png";
 import meditation from "@/assets/images/meditation-101.png";
 import journal from "@/assets/images/journal-101.png";
 
-export const baseURL = "http://localhost:8000";
+export const baseURL = "http://192.168.0.102:8000";
 
 export const images = {
   check,

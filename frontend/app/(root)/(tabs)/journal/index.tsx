@@ -25,7 +25,7 @@ const Journal = () => {
   const [selectedDate, setSelectedDate] = useState(
     new Date(date || new Date())
   );
-  const [journalEntries, setJournalEntries] = useState(dummyJournalEntries);
+  const [journalEntries, setJournalEntries] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [newEntryTitle, setNewEntryTitle] = useState("");

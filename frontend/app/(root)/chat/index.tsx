@@ -246,7 +246,6 @@
 
 // export default AiChat;
 
-
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -269,14 +268,14 @@ import { baseURL, dummyMessages } from "@/constants";
 const AiChat = () => {
   const router = useRouter();
   const { date } = useLocalSearchParams(); // Get selected date from query params
-  const [messages, setMessages] = useState(dummyMessages);
+  const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(
-    date ? new Date(date as string) : new Date()
+    new Date(date || new Date())
   );
-  
+
   // For typing animation
   const [typingMessageId, setTypingMessageId] = useState(null);
   const [displayText, setDisplayText] = useState("");
@@ -285,55 +284,59 @@ const AiChat = () => {
   const charIndexRef = useRef(0);
   const flatListRef = useRef();
 
-  // Function to fetch previous chats based on the selected date
-  const fetchPreviousChats = async (selectedDate: string) => {
-    try {
-      setLoading(true);
-      const response = await fetch(
-        `${baseURL}/conversations/?date=${selectedDate}`
-      );
-      const data = await response.json();
-
-      if (data?.conversations) {
-        const formattedMessages = [];
-
-        data.conversations.forEach((msg) => {
-          formattedMessages.push({
-            id: `${msg._id}-user`,
-            sender: "user",
-            text: msg.user_input,
-          });
-          formattedMessages.push({
-            id: `${msg._id}-bot`,
-            sender: "bot",
-            text: msg.response,
-          });
-        });
-
-        setMessages(formattedMessages);
-      }
-    } catch (error) {
-      console.error("Error fetching previous chats:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (date) {
-      fetchPreviousChats(date as string);
-    }
+    // Function to fetch previous chats based on the selected date
+    const fetchPreviousChats = async (selectedDate: string) => {
+      try {
+        setLoading(true);
+        console.log(
+          `fetching from: ${baseURL}/conversations/?date=${selectedDate}`
+        );
+        const response = await fetch(
+          `${baseURL}/conversations/?date=${selectedDate}`
+        );
+        const data = await response.json();
+
+        if (data?.conversations) {
+          const formattedMessages = [];
+
+          data.conversations.forEach((msg) => {
+            formattedMessages.push({
+              id: `${msg._id}-user`,
+              sender: "user",
+              text: msg.user_input,
+            });
+            formattedMessages.push({
+              id: `${msg._id}-bot`,
+              sender: "bot",
+              text: msg.response,
+            });
+          });
+
+          setMessages(formattedMessages);
+        }
+      } catch (error) {
+        console.error("Error fetching previous chats:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPreviousChats(selectedDate.toISOString().split("T")[0]);
   }, [date]);
 
   // Function to animate typing effect
   const animateTyping = () => {
     if (charIndexRef.current < fullMessageRef.current.length) {
       // Display more characters
-      setDisplayText(fullMessageRef.current.substring(0, charIndexRef.current + 1));
+      setDisplayText(
+        fullMessageRef.current.substring(0, charIndexRef.current + 1)
+      );
       charIndexRef.current += 1;
-      
+
       // Random typing speed between 10ms and 50ms for natural effect
-      const randomDelay = Math.floor(Math.random() * 40) + 10;
+      // const randomDelay = Math.floor(Math.random() * 40) + 10;
+      const randomDelay = 0.1;
       setTimeout(animateTyping, randomDelay);
     } else {
       // Animation complete
@@ -372,10 +375,10 @@ const AiChat = () => {
       // Show temporary placeholder while waiting for response
       const tempBotId = Date.now().toString() + "-bot";
       setMessages((prevMessages) => [
-        ...prevMessages, 
-        { id: tempBotId, sender: "bot", text: "" }
+        ...prevMessages,
+        { id: tempBotId, sender: "bot", text: "" },
       ]);
-      
+
       const response = await fetch(`${baseURL}/chat/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -383,34 +386,38 @@ const AiChat = () => {
       });
 
       const data = await response.json();
-      
+
       // Setup typing animation
+      // const botMessage = {
+      //   id: tempBotId,
+      //   sender: "bot",
+      //   text: "This is a test response from the bot and will be sent to the server soon in the future",
+      // };
+
       const botMessage = {
         id: tempBotId,
         sender: "bot",
         text: data.response,
       };
-      
+
       // Update the placeholder message with actual content
-      setMessages((prevMessages) => 
-        prevMessages.map(msg => 
-          msg.id === tempBotId ? botMessage : msg
-        )
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) => (msg.id === tempBotId ? botMessage : msg))
       );
-      
+
       // Start typing animation
+      // fullMessageRef.current = "This is a test response from the bot and will be sent to the server soon in the future";
       fullMessageRef.current = data.response;
       charIndexRef.current = 0;
       setDisplayText("");
       setTypingMessageId(tempBotId);
       setIsTyping(true);
-      
     } catch (error) {
       console.error("Error fetching AI response:", error);
-      
+
       // Remove the placeholder message on error
-      setMessages((prevMessages) => 
-        prevMessages.filter(msg => msg.id !== Date.now().toString() + "-bot")
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg.id !== Date.now().toString() + "-bot")
       );
     }
   };
@@ -442,6 +449,36 @@ const AiChat = () => {
 
     // 5) Update the route so fetchPreviousChats() can retrieve data
     router.replace(`/chat?date=${dateStr}`);
+  };
+
+  const simulateApiResponse = () => {
+    // Simulate sending a message and getting a response
+    const userMessage = {
+      id: Date.now().toString() + "-user",
+      sender: "user",
+      text: "Test message",
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
+    // Simulate delay for API response
+    setTimeout(() => {
+      const botId = Date.now().toString() + "-bot";
+      const botMessage = {
+        id: botId,
+        sender: "bot",
+        text: "This is a longer response to test the typing animation. It includes multiple sentences to see how the animation handles paragraphs of text.",
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+
+      // Start typing animation
+      fullMessageRef.current = botMessage.text;
+      charIndexRef.current = 0;
+      setDisplayText("");
+      setTypingMessageId(botId);
+      setIsTyping(true);
+    }, 1000);
   };
 
   return (
@@ -502,7 +539,9 @@ const AiChat = () => {
               }`}
             >
               {item.id === typingMessageId ? displayText : item.text}
-              {item.id === typingMessageId && <Text className="text-light">|</Text>}
+              {item.id === typingMessageId && (
+                <Text className="text-light">|</Text>
+              )}
             </Text>
           </View>
         )}
